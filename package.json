@@ -1,40 +1,132 @@
 {
-    "name": "lang-freebasic",
-    "displayName": "lang-freebasic",
-    "description": "Provides FreeBASIC syntax coloring",
-    "version": "3.0.0",
+    "name": "lang-powerbasic",
+    "displayName": "PowerBASIC",
+    "description": "Complete PowerBASIC language support with syntax highlighting, DDT/PBFORMS support, and compilation/execution with PBWIN.exe",
+    "version": "1.0.0",
     "engines": {
         "vscode": "^1.35.0"
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/mudhairless/vscode-freebasic"
+        "url": "https://github.com/ReFil/vscode-powerbasic"
     },
-    "publisher": "me0698",
+    "publisher": "ReFil",
     "categories": [
         "Programming Languages"
+    ],
+    "keywords": [
+        "powerbasic",
+        "basic",
+        "programming",
+        "compiler",
+        "pbwin",
+        "pbforms",
+        "ddt",
+        "dialog",
+        "windows"
+    ],
+    "main": "./extension.js",
+    "activationEvents": [
+        "onLanguage:powerbasic"
     ],
     "contributes": {
         "languages": [
             {
-                "id": "freebasic",
+                "id": "powerbasic",
                 "aliases": [
-                    "FreeBASIC",
-                    "freebasic"
+                    "PowerBASIC",
+                    "powerbasic"
                 ],
                 "extensions": [
                     ".bas",
-                    ".bi"
+                    ".bi",
+                    ".inc"
                 ],
                 "configuration": "./language-configuration.json"
             }
         ],
         "grammars": [
             {
-                "language": "freebasic",
-                "scopeName": "source.freebasic",
-                "path": "./syntaxes/freebasic.tmLanguage.json"
+                "language": "powerbasic",
+                "scopeName": "source.powerbasic",
+                "path": "./syntaxes/powerbasic.tmLanguage.json"
+            },
+            {
+                "scopeName": "source.powerbasic.pbforms",
+                "path": "./syntaxes/pbforms.tmLanguage.json",
+                "embeddedLanguages": {
+                    "meta.embedded.block.powerbasic": "powerbasic"
+                }
+            }
+        ],
+        "commands": [
+            {
+                "command": "powerbasic.build",
+                "title": "PowerBASIC: Build Current File",
+                "when": "editorLangId == powerbasic"
+            },
+            {
+                "command": "powerbasic.run",
+                "title": "PowerBASIC: Run Current File",
+                "when": "editorLangId == powerbasic"
+            },
+            {
+                "command": "powerbasic.buildAndRun",
+                "title": "PowerBASIC: Build and Run",
+                "when": "editorLangId == powerbasic"
+            },
+            {
+                "command": "pbforms.showDDTReference",
+                "title": "PBFORMS: Show DDT Reference",
+                "when": "editorLangId == powerbasic"
+            },
+            {
+                "command": "pbforms.insertControlTemplate",
+                "title": "PBFORMS: Insert Control Template",
+                "when": "editorLangId == powerbasic"
+            }
+        ],
+        "keybindings": [
+            {
+                "command": "powerbasic.build",
+                "key": "ctrl+shift+b",
+                "when": "editorLangId == powerbasic"
+            },
+            {
+                "command": "powerbasic.buildAndRun",
+                "key": "ctrl+alt+shift+b",
+                "when": "editorLangId == powerbasic"
+            },
+            {
+                "command": "powerbasic.run",
+                "key": "ctrl+f5",
+                "when": "editorLangId == powerbasic"
+            }
+        ],
+        "configuration": [
+            {
+                "title": "PowerBASIC Configuration",
+                "properties": {
+                    "powerbasic.pbwinPath": {
+                        "type": "string",
+                        "default": "C:\\PBWin10\\bin\\PBWin.exe",
+                        "description": "Path to PBWIN.exe compiler"
+                    },
+                    "powerbasic.includeDirectory": {
+                        "type": "string",
+                        "default": "C:\\PBWin10\\WinAPI\\",
+                        "description": "Include directory path for PBWIN.exe compiler"
+                    },
+                    "powerbasic.useWineOnLinux": {
+                        "type": "boolean",
+                        "default": true,
+                        "description": "Automatically use wine to run PBWIN.exe on Linux"
+                    }
+                }
             }
         ]
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
     }
 }

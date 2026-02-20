@@ -1,0 +1,136 @@
+{
+  "scopeName": "source.powerbasic.pbforms",
+  "name": "PowerBASIC Forms (DDT)",
+  "fileTypes": ["bas", "bi"],
+  "patterns": [
+    {
+      "include": "#comments"
+    },
+    {
+      "include": "#ddt-keywords"
+    },
+    {
+      "include": "#dialog-styles"
+    },
+    {
+      "include": "#control-styles"
+    },
+    {
+      "include": "#control-types"
+    },
+    {
+      "include": "#properties"
+    },
+    {
+      "include": "#strings"
+    },
+    {
+      "include": "#numbers"
+    }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.line.single.powerbasic",
+          "match": "'.*$"
+        },
+        {
+          "name": "comment.line.rem.powerbasic",
+          "match": "(?i)\\bREM\\b.*$"
+        }
+      ]
+    },
+    "ddt-keywords": {
+      "patterns": [
+        {
+          "name": "keyword.ddt.powerbasic",
+          "match": "(?i)\\b(DIALOG|DIALOG SHOW|DIALOG DOEVENTS|DIALOG KILL|DIALOG WAIT|DIALOG FONT|DIALOG MENU|DIALOG STYLE|CONTROL ADD|CONTROL SET|CONTROL GET|CONTROL SEND|CONTROL KILL|CONTROL ID|CALLBACK|CALLBACK FUNCTION)\\b"
+        }
+      ]
+    },
+    "control-types": {
+      "patterns": [
+        {
+          "name": "entity.name.control.powerbasic",
+          "match": "(?i)\\b(BUTTON|CHECKBOX|CHECK3STATE|COMBOBOX|DIALOG|FRAME|GRAPHIC|IMAGE|IMGBUTTON|LABEL|LINE|LISTBOX|LISTVIEW|OPTION|PROGRESSBAR|SCROLLBAR|STATUSBAR|TAB|TEXTBOX|TOOLBAR|TREEVIEW|HEADER|DIVIDER)\\b"
+        }
+      ]
+    },
+    "dialog-styles": {
+      "patterns": [
+        {
+          "name": "variable.dialog-style.powerbasic",
+          "match": "(?i)%DS_(3DLOOK|ABSALIGN|CENTER|CENTERMOUSE|CONTEXTHELP|CONTROL|MODALFRAME|NOFAILCREATE|SETFONT|SETFOREGROUND|SYSMODAL)"
+        },
+        {
+          "name": "variable.window-style.powerbasic",
+          "match": "(?i)%WS_(BORDER|CAPTION|CHILD|CLIPCHILDREN|CLIPSIBLINGS|DISABLED|DLGFRAME|HSCROLL|MAXIMIZEBOX|MINIMIZEBOX|OVERLAPPED|POPUP|SYSMENU|THICKFRAME|VSCROLL|AUTOHSCROLL|AUTOVSCROLL|TILED|EX_TOPMOST|EX_CONTEXTHELP|EX_TRANSPARENT|EX_LAYERED|EX_TOOLWINDOW|EX_APPWINDOW|EX_MODALWINDOW|EX_STATICEDGE|EX_WINDOWEDGE)"
+        }
+      ]
+    },
+    "control-styles": {
+      "patterns": [
+        {
+          "name": "variable.button-style.powerbasic",
+          "match": "(?i)%BS_(AUTO3STATE|AUTOCHECKBOX|BITMAP|BOTTOM|CENTER|DEFAULT|DEFPUSHBUTTON|FLAT|ICON|LEFT|LEFTTEXT|MULTILINE|NOTIFY|OWNERDRAW|PUSHBUTTON|PUSHLIKE|RIGHT|TEXT|TOP|BOTTOM|VCENTER|BOTTOM)"
+        },
+        {
+          "name": "variable.textbox-style.powerbasic",
+          "match": "(?i)%ES_(AUTOHSCROLL|AUTOVSCROLL|CENTER|LEFT|LOWERCASE|MULTILINE|NOHIDESEL|NUMBER|OEMCONVERT|PASSWORD|READONLY|RIGHT|UPPERCASE|WANTRETURN)"
+        },
+        {
+          "name": "variable.listbox-style.powerbasic",
+          "match": "(?i)%LBS_(DISABLENOSCROLL|EXTENDEDSEL|HASSTRINGS|MULTICOLUMN|MULTISEL|NODATA|NOINTEGRALHEIGHT|NOREDRAW|NOSEL|NOTIFY|OWNERDRAWFIXED|OWNERDRAWVARIABLE|SORT|STANDARD|USETABSTOPS|WANTKEYSTROKE)"
+        },
+        {
+          "name": "variable.combobox-style.powerbasic",
+          "match": "(?i)%CBS_(AUTOHSCROLL|DISABLENOSCROLL|DROPDOWN|DROPDOWNLIST|HASSTRINGS|LOWERCASE|NOINTEGRALHEIGHT|NOREDRAW|SIMPLE|SORT|UPPERCASE)"
+        },
+        {
+          "name": "variable.static-style.powerbasic",
+          "match": "(?i)%SS_(BITMAP|BLACKFRAME|BLACKRECT|CENTER|ETCHEDFRAME|ETCHEDHORZ|ETCHEDVERT|GRAYFRAME|GRAYRECT|ICON|LEFT|LEFTNOWORDWRAP|NOPREFIX|NOTIFY|OWNERDRAW|REALSIZECONTROL|RIGHT|RIGHTJUST|SUNKEN|USERITEM|WHITEFRAME|WHITERECT|WORDELLIPSIS)"
+        },
+        {
+          "name": "variable.common-style.powerbasic",
+          "match": "(?i)%WS_(BORDER|DISABLED|VISIBLE|TABSTOP|GROUP|VISIBLE|CHILD|CHILDWINDOW)"
+        }
+      ]
+    },
+    "properties": {
+      "patterns": [
+        {
+          "name": "variable.property.powerbasic",
+          "match": "(?i)\\b(ID|POSITION|SIZE|WIDTH|HEIGHT|X|Y|CAPTION|TEXT|FONT|FONTSIZE|FONTWEIGHT|FONTITALIC|FOREGROUND|BACKGROUND|COLOR|BACKCOLOR|BRUSH|EXSTYLE|STYLE|TABINDEX|TABORDER|ENABLED|VISIBLE|HINT|HELPID|TAG|CUSTOMDATA|DEFAULT|CANCEL|FOCUS|GROUPBOX|MULTILINE|PASSWORDCHAR|READONLY|WORDWRAP|MAXCHARS|NUMERIC|SORTED|DROPDOWNCOUNT|ITEMDATA|ITEMCOUNT|SELECTEDITEM|SELECTEDINDEX|SELECTEDTEXT)\\b"
+        }
+      ]
+    },
+    "strings": {
+      "patterns": [
+        {
+          "name": "string.quoted.double.powerbasic",
+          "begin": "\"",
+          "end": "\"",
+          "patterns": [
+            {
+              "name": "constant.character.escape.powerbasic",
+              "match": "\\\\."
+            }
+          ]
+        }
+      ]
+    },
+    "numbers": {
+      "patterns": [
+        {
+          "name": "constant.numeric.powerbasic",
+          "match": "\\b(\\d+\\.\\d*|\\d*\\.\\d+|\\d+)[eE]?[+-]?\\d*\\b"
+        },
+        {
+          "name": "constant.numeric.hex.powerbasic",
+          "match": "(?i)0x[0-9a-f]+"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,17 @@
+node_modules/
+.DS_Store
+*.vsix
+dist/
+bin/
+obj/
+*.exe
+*.dll
+*.o
+*.obj
+.vscode-test/
+.idea/
+*.swp
+*.swo
+*~
+.vscode/*.log
+out/

@@ -1,0 +1,288 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "PowerBASIC",
+	"scopeName": "source.powerbasic",
+	"patterns": [
+		{
+			"include": "#comments"
+		},
+		{
+			"include": "#folding"
+		},
+		{
+			"include": "#functions"
+		},
+		{
+			"include": "#declarations"
+		},
+		{
+			"include": "#variables"
+		},
+		{
+			"include": "#staticdefs"
+		},
+		{
+			"include": "#keywords"
+		},
+		{
+			"include": "#preprocessor"
+		},
+		{
+			"include": "#numeric"
+		},
+		{
+			"include": "#types"
+		},
+		{
+			"include": "#typemods"
+		},
+		{
+			"include": "#strings"
+		},
+		{
+			"include": "#operators"
+		},
+		{
+			"include": "#stdlib"
+		},
+		{
+			"include": "#intrinsics"
+		}
+	],
+	"repository": {
+		"staticdefs": {
+			"patterns": [
+				{
+					"name": "constant.character.escape.powerbasic",
+					"match": "%[A-Z_][A-Z0-9_]*\\b",
+					"comment": "Static definitions prefixed with %"
+				},
+				{
+					"name": "constant.character.escape.powerbasic",
+					"match": "(?i)(?<==\\s)%[A-Za-z_][A-Za-z0-9_]*\\b",
+					"comment": "Static definitions on right side of assignment"
+				}
+			]
+		},
+		"functions": {
+			"patterns": [
+				{
+					"name": "entity.name.function.powerbasic",
+					"match": "(?i)(?<=\\b(FUNCTION|SUB|METHOD|PROPERTY)\\s)\\w+",
+					"comment": "Function/sub/method/property names"
+				},
+				{
+					"name": "entity.name.function.powerbasic",
+					"match": "(?i)(?<=\\bDECLARE\\s+(FUNCTION|SUB|METHOD|PROPERTY)\\s)\\w+",
+					"comment": "Declared function, sub, method, or property names"
+				},
+				{
+					"name": "entity.name.type.class.powerbasic",
+					"match": "(?i)(?<=\\b(CLASS|TYPE|INTERFACE|STRUCT|UNION)\\s)\\w+",
+					"comment": "Class, type, interface, or struct names"
+				}
+			]
+		},
+		"declarations": {
+			"patterns": [
+				{
+					"match": "(?i)^\\s*(DIM|LOCAL|STATIC|REDIM|CONST)\\b",
+					"captures": {
+						"1": { "name": "keyword.control.powerbasic" }
+					},
+					"comment": "Declaration keywords"
+				},
+				{
+					"match": "(?i)\\b(BYVAL|BYREF|AS)\\b",
+					"captures": {
+						"0": { "name": "storage.modifier.powerbasic" }
+					},
+					"comment": "Type specification keywords"
+				},
+				{
+					"match": "(?i)\\b(BYVAL|BYREF|AS)\\s+([A-Za-z_]\\w*)",
+					"captures": {
+						"1": { "name": "storage.modifier.powerbasic" },
+						"2": { "name": "storage.type.powerbasic" }
+					},
+					"comment": "Type specifications with type names"
+				}
+			]
+		},
+		"variables": {
+			"patterns": [
+				{
+					"name": "entity.name.variable.powerbasic",
+					"match": "(?i)(?<=\\b(LOCAL|GLOBAL|LET|DIM|STATIC)\\s)\\w+|(?<=,\\s)\\w+(?=\\s*(AS|,|$))",
+					"comment": "Variable names"
+				}
+			]
+		},
+		"keywords": {
+			"patterns": [{
+				"name": "keyword.control.powerbasic",
+				"match": "(?i)\\b(abstract|access|alias|and|andalso|append|as|asm|asmdata|at|base|begin|binary|byref|byval|case|catch|cbyte|cdecl|class|clear|close|common|const|constructor|continue|data|declare|defbyt|defdbl|defcur|defdwd|defext|defint|deflng|defqud|defsng|defstr|defwrd|defined|destructor|dim|do|dynamic|else|elseif|end|endif|enum|eqv|event|exit|explicit|export|extends|extern|field|for|foreach|function|get|global|gosub|goto|if|imp|implements|import|include|instance|interface|let|lib|local|loop|macro|method|namespace|next|not|object|on|optional|or|orelse|override|pascal|prefix|private|procptr|property|protected|public|redim|rem|resume|scope|select|set|shared|shift|shl|shr|sizeof|skip|static|stdcall|step|string|sub|swap|then|thread|threaded|to|try|type|union|until|using|var|varptr|wend|while|with|xor)\\b"
+			}]
+		},
+		"numeric": {
+			"patterns": [{
+				"name": "constant.numeric",
+				"match": "(?i)\\b(\\d+\\.?\\d*([EeDd][+|-]?[0-9]*)?)|(&[Bb][01]+)|(&[Oo][0-7]+)|(&[Hh][0-9a-fA-F]+)\\b"
+			}]
+		},
+		"intrinsics": {
+			"patterns": [{
+				"name": "constant.language.powerbasic",
+				"match": "(?i)\\b(__DATE__|__DATE_ISO__|__DATETIME__|__FILE__|__FILE_NQ__|__FUNCTION__|__FUNCTION_NQ__|__LINE__|__PATH__|__TIME__|__UNICODE__|%DEF|%PB_COMPILETIME|TRUE|FALSE|NULL|NOTHING|PI|MAXINT|MININT)\\b"
+			}]
+		},
+		"preprocessor": {
+			"patterns": [{
+				"name": "keyword.other.powerbasic",
+				"match": "(?i)^\\s*(\\#\\s*(align|bloat|com|compile|compiler|debug|define|dim|else|elseif|endif|endmacro|export|if|ifdef|ifndef|inclib|include|lang|libpath|line|link|messages|optimize|option|page|pbforms|pragma|print|register|resource|stack|tools|unique|undef|utility))\\b"
+			}]
+		},
+		"stdlib": {
+			"patterns": [{
+				"name": "support.function.powerbasic",
+				"match": "(?i)\\b(abs|acode|accel|acos|allocate|array|asc|ash|asin|assert|assertwarn|atan2|atn|beep|bgr|bin|bit|bitreset|bitset|bits|bitse|bload|bsave|build|call|callocate|cast|cbool|cbyt|ccur|ccux|cdbl|cdwd|ceil|cext|chdir|chdrive|chrbytes|chrtooem|chrtoutf8|choose|chr|cint|clip|circle|clng|clsid|codeptr|combobox|command|comm|cos|cptr|cqud|cset|csng|curdir|cvbyt|cvcur|cvcux|cvd|cvdwd|cve|cvi|cvl|cvq|cvs|cvwrd|cwrd|data|datacount|date|dateadd|datediff|datepart|dateserial|datevalue|day|dayname|deallocate|delete|dec|desktop|dialog|dir|diskfree|disksize|display|dllmain|dword|dylibfree|dylibload|dylibsymbol|environ|eof|erase|erfn|erl|ermn|err|errclear|error|exec|exepath|exit|exp|exp2|exp10|extract|fileattr|filecopy|filedatetime|fileexists|filelen|filename|filescan|fix|flip|flush|font|for|format|frac|freefile|funcname|get|getattr|getjoystick|getkey|getmouse|globalmem|gosub|goto|graphic|guid|guidtxt|header|hex|hibyte|hiword|host|idispinfo|iif|ilinklistcollection|imagelist|import|incr|inputbox|input|instr|instrrev|int|interface|ipowerarray|ipowercollection|ipowerthread|ipowertime|iqueue|istack|istringbuilder|isfalse|isfile|isfolder|isinterface|ismissing|isnothing|isnotnull|isnull|isobject|istrue|iswin|iterate|join|keyboard|kill|lbound|lcase|left|len|let|libmain|line|listbox|listview|lo|loc|local|lock|lof|log|log2|log10|lprint|lset|ltrim|macro|mak|mat|max|mcase|me|memory|menu|method|metrics|mid|min|mkbyt|mkcur|mkcux|mkd|mkdir|mkdwd|mke|mki|mkl|mkq|mks|mkwrd|mod|monthname|mouseptr|msgbox|mybase|name|not|nul|objactive|object|objequal|objptr|objresult|ocrtoem|oct|otemtochr|on|open|option|parse|parsecount|pathname|pathscan|pblibmain|pbmain|peek|pi|play|poke|powerarray|powertime|prefix|print|printer|printercount|process|profile|progid|progressbar|property|put|randomize|read|reallocate|redim|regexpr|register|regrepl|rem|remain|remove|repeat|replace|reset|resource|resume|retain|return|rgb|rgba|right|rmdir|rnd|rotate|round|rset|rtrim|scrollbar|seek|setattr|seteof|sgn|shell|shift|shrink|sin|sizeof|sleep|space|split|sqr|static|statusbar|str|strdelete|string|strinsert|stringbuilder|strptr|strreverse|sub|swap|switch|tab|tally|tan|tcp|thread|threadcount|threadid|time|timer|tix|toolbar|trace|treeview|trim|try|txt|ubound|ucase|ucode|ucodepage|udp|union|unlock|unwrap|using|utf8tochr|val|variant|variantvt|varptr|verify|while|wend|window|winmain|wrap|write|xor|xprint)\\b"
+			}]
+		},
+		"operators": {
+			"patterns": [{
+				"name": "keyword.operator.powerbasic",
+				"match": "(?i)\\b(and|andalso|eqv|imp|is|mod|not|or|orelse|shl|shr|strptr|xor)\\b"
+			}]
+		},
+		"types": {
+			"patterns": [{
+				"name": "support.type.powerbasic",
+				"match": "(?i)\\b(any|boolean|byte|byref|byval|currency|double|dword|extended|guid|integer|long|longint|pointer|ptr|quad|short|single|string|wstring|zstring|variant|object|interface|ubyte|uinteger|ulong|ulongint|unsigned|ushort)\\b"
+			}]
+		},
+		"typemods": {
+			"patterns": [{
+				"name": "storage.modifier.powerbasic",
+				"match": "(?i)\\b(__fastcall|__thiscall|abstract|access|alias|append|at|callback|cdecl|class|const|encoding|explicit|field|inline|lib|method|optional|override|pascal|preserve|private|procptr|property|protected|public|readonly|register|shared|static|stdcall|virtual|volatile)\\b"
+			}]
+		},
+		"string_escaped_char": {
+			"patterns": [
+				{
+					"match": "\\\\([\"\\\\abflnrtv']|[0-9]{1,3}|&h[0-9a-fA-Z]{1,2}|&o[0-7]{1,3}|&b[01]{1,8}|u[0-9a-fA-Z]{1,4})",
+					"name": "constant.character.escape.powerbasic"
+				}
+			]
+		},
+		"strings": {
+			"patterns": [
+				{
+					"name": "string.quoted.double.powerbasic",
+					"begin": "\"",
+					"end": "\"|\n"
+				}
+            ]
+		},
+		"comments": {
+			"patterns": [
+				{
+					"name": "comment.line.apostrophe.powerbasic",
+					"match": "'.*$"
+				},
+				{
+					"name": "comment.line.rem.powerbasic",
+					"match": "(?i)\\bREM\\b.*$"
+				},
+				{
+					"name": "comment.block.powerbasic",
+					"begin": "/\\*",
+					"end": "\\*/"
+				}
+			]
+		},
+		"folding": {
+			"patterns": [
+				{
+					"name": "meta.folding.if.powerbasic",
+					"begin": "(?i)^\\s*(IF)\\b",
+					"beginCaptures": {
+						"1": { "name": "keyword.control.powerbasic" }
+					},
+					"end": "(?i)^\\s*(END\\s+IF)\\b",
+					"endCaptures": {
+						"1": { "name": "keyword.control.powerbasic" }
+					},
+					"patterns": [
+						{
+							"include": "$self"
+						}
+					]
+				},
+				{
+					"name": "meta.folding.select.powerbasic",
+					"begin": "(?i)^\\s*(SELECT)\\b",
+					"beginCaptures": {
+						"1": { "name": "keyword.control.powerbasic" }
+					},
+					"end": "(?i)^\\s*(END\\s+SELECT)\\b",
+					"endCaptures": {
+						"1": { "name": "keyword.control.powerbasic" }
+					},
+					"patterns": [
+						{
+							"include": "$self"
+						}
+					]
+				},
+				{
+					"name": "meta.folding.for.powerbasic",
+					"begin": "(?i)^\\s*(FOR|WHILE|DO)\\b",
+					"beginCaptures": {
+						"1": { "name": "keyword.control.powerbasic" }
+					},
+					"end": "(?i)^\\s*(NEXT|WEND|LOOP)\\b",
+					"endCaptures": {
+						"1": { "name": "keyword.control.powerbasic" }
+					},
+					"patterns": [
+						{
+							"include": "$self"
+						}
+					]
+				},
+				{
+					"name": "meta.folding.function.powerbasic",
+					"begin": "(?i)^\\s*(FUNCTION|SUB|PROPERTY|METHOD)\\b",
+					"beginCaptures": {
+						"1": { "name": "keyword.control.powerbasic" }
+					},
+					"end": "(?i)^\\s*(END\\s+(FUNCTION|SUB|PROPERTY|METHOD))\\b",
+					"endCaptures": {
+						"1": { "name": "keyword.control.powerbasic" }
+					},
+					"patterns": [
+						{
+							"include": "$self"
+						}
+					]
+				},
+				{
+					"name": "meta.folding.type.powerbasic",
+					"begin": "(?i)^\\s*(TYPE|CLASS|INTERFACE|STRUCT)\\b",
+					"beginCaptures": {
+						"1": { "name": "keyword.control.powerbasic" }
+					},
+					"end": "(?i)^\\s*(END\\s+(TYPE|CLASS|INTERFACE|STRUCT))\\b",
+					"endCaptures": {
+						"1": { "name": "keyword.control.powerbasic" }
+					},
+					"patterns": [
+						{
+							"include": "$self"
+						}
+					]
+				}
+			]
+		}
+	}
+}
