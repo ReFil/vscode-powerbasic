@@ -2,7 +2,7 @@
     "name": "lang-powerbasic",
     "displayName": "PowerBASIC",
     "description": "Complete PowerBASIC language support with syntax highlighting, DDT/PBFORMS support, and compilation/execution with PBWIN.exe",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "engines": {
         "vscode": "^1.35.0"
     },

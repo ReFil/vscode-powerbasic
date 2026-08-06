@@ -79,21 +79,28 @@ function showStatus() {
 }
 
 async function compileFile() {
+    const folders = vscode.workspace.workspaceFolders;
     const editor = vscode.window.activeTextEditor;
-    if (!editor || editor.document.languageId !== 'powerbasic') {
-        vscode.window.showErrorMessage('No PowerBASIC file is currently active');
-        return;
-    }
-
     const document = editor.document;
     const filePath = document.uri.fsPath;
     const fileDir = path.dirname(filePath);
-    const fileName = path.basename(filePath, path.extname(filePath));
+    let fileName = path.basename(filePath, path.extname(filePath));
 
-    // Save the file
-    if (document.isDirty) {
-        await document.save();
+
+    for (let index = 0; index < folders.length; index++) {
+        console.log(`folder name: ${folders[index].uri.toString()}`);
+        fs.readdirSync(folders[index].uri.fsPath).forEach(file => {
+        // will also include directory names
+        if(file.endsWith('.bas') && !file.startsWith('Backup')){
+            console.log(`Found file: ${file}`);
+            fileName = file;
+        }
+        });
+        
     }
+
+    vscode.workspace.saveAll();
+    await new Promise(resolve => setTimeout(resolve, 500));
 
     updateStatusBar('Compiling...');
 
@@ -143,20 +150,31 @@ async function compileFile() {
         vscode.window.showErrorMessage(`PowerBASIC Compilation Error:\n${errorMessage}`);
         updateStatusBar('Ready');
         console.error(errorMessage);
+        throw error;
     }
 }
 
 async function runFile() {
+    const folders = vscode.workspace.workspaceFolders;
     const editor = vscode.window.activeTextEditor;
-    if (!editor || editor.document.languageId !== 'powerbasic') {
-        vscode.window.showErrorMessage('No PowerBASIC file is currently active');
-        return;
-    }
-
     const document = editor.document;
     const filePath = document.uri.fsPath;
     const fileDir = path.dirname(filePath);
-    const fileName = path.basename(filePath, path.extname(filePath));
+    let fileName = path.basename(filePath, path.extname(filePath));
+
+
+    for (let index = 0; index < folders.length; index++) {
+        console.log(`folder name: ${folders[index].uri.toString()}`);
+        fs.readdirSync(folders[index].uri.fsPath).forEach(file => {
+        // will also include directory names
+        if(file.endsWith('.bas') && !file.startsWith('Backup')){
+            console.log(`Found file: ${file}`);
+            fileName = file.replace('.bas','');
+        }
+        });
+        
+    }
+
     const exePath = path.join(fileDir, fileName + '.exe');
 
     // Check if executable exists
@@ -166,6 +184,8 @@ async function runFile() {
     }
 
     try {
+
+        await new Promise(resolve => setTimeout(resolve, 500));
         updateStatusBar('Running...');
     
         
@@ -193,18 +213,8 @@ async function compileAndRun() {
         // First compile
         await compileFile();
         
-        // If compilation succeeds (no error thrown), run it
-        const document = editor.document;
-        const filePath = document.uri.fsPath;
-        const fileDir = path.dirname(filePath);
-        const fileName = path.basename(filePath, path.extname(filePath));
-        const exePath = path.join(fileDir, fileName + '.exe');
+        await runFile();
 
-        if (fs.existsSync(exePath)) {
-            // Small delay to ensure executable is written to disk
-            await new Promise(resolve => setTimeout(resolve, 500));
-            await runFile();
-        }
     } catch (error) {
         vscode.window.showErrorMessage(`Failed to compile and run: ${error.message}`);
     }
