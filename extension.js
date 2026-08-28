@@ -1,5 +1,5 @@
 const vscode = require('vscode');
-const { execSync, spawn } = require('child_process');
+const { execSync, spawn, exec } = require('child_process');
 const path = require('path');
 const fs = require('fs');
 const os = require('os');
@@ -114,15 +114,15 @@ async function compileFile() {
             if (process.platform === 'win32') {
                 // Try to kill gracefully first, then forcefully
                 try {
-                    execSync(`taskkill /IM "${fileName}.exe"`, { stdio: 'pipe' });
+                    execSync(`taskkill /IM ${fileName.replace('.bas','')}.exe /F`, { stdio: 'pipe' });
                 } catch (e) {
-                    execSync(`taskkill /IM "${fileName}.exe" /F`, { stdio: 'pipe' });
+                    console.log(`Failed to kill: ${e.message}`)
                 }
             } else {
                 execSync(`pkill -9 "${fileName}"`, { stdio: 'pipe' });
             }
             // Wait a moment for the process to fully terminate
-            await new Promise(resolve => setTimeout(resolve, 200));
+            await new Promise(resolve => setTimeout(resolve, 2000));
         } catch (e) {
             // Ignore if process doesn't exist
         }
@@ -175,7 +175,7 @@ async function runFile() {
         
     }
 
-    const exePath = path.join(fileDir, fileName + '.exe');
+    const exePath = path.join(fileDir, fileName + '.EXE');
 
     // Check if executable exists
     if (!fs.existsSync(exePath)) {
@@ -190,9 +190,16 @@ async function runFile() {
     
         
         if (process.platform === 'linux') {
-            execSync(`wine "${exePath}"`);
+            exec(`wine "${exePath}"`);
         } else {
-            execSync(`"${exePath}"`);
+            exec(`"${exePath}"`, (error, stdout, stderr) => {
+            if (error) {
+                console.error(`exec error: ${error}`);
+                return;
+            }
+            console.log(`stdout: ${stdout}`);
+            console.error(`stderr: ${stderr}`);
+            });
         }
 
         updateStatusBar('Running');
